@@ -8,15 +8,23 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^1.0.5",
     "next": "12.0.7",
+    "numeral": "^2.0.6",
+    "pg": "^8.7.1",
+    "postgres": "^1.0.2",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },
   "devDependencies": {
     "@types/node": "17.0.6",
+    "@types/numeral": "^2.0.2",
     "@types/react": "17.0.38",
+    "autoprefixer": "^10.4.1",
     "eslint": "8.6.0",
     "eslint-config-next": "12.0.7",
+    "postcss": "^8.4.5",
+    "tailwindcss": "^3.0.8",
     "typescript": "4.5.4"
   }
 }
