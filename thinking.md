@@ -1,3 +1,1 @@
-- add shake to dice on roll animation
 - set a final roll after 1 player hits 10,000 points
-- change message text color

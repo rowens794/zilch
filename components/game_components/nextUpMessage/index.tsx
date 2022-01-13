@@ -19,8 +19,8 @@ export default function Index({ gameData, userID }: Props): ReactElement {
     <>
       {showNextUp ? (
         <div className="absolute z-30 w-full top-60">
-          <div className="py-8 m-auto text-center transform bg-gray-100 rounded-sm w-80 drop-shadow-harshDkRed -rotate-6">
-            <p className="text-4xl font-black text-center text-yellow-600 text-shadow">
+          <div className="py-8 m-auto text-center transform bg-red-100 rounded-sm w-80 drop-shadow-harshDkRed -rotate-6">
+            <p className="text-4xl font-black text-center text-yellow-500 text-shadow">
               {nextUpName}
             </p>
           </div>

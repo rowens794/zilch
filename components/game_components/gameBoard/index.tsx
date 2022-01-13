@@ -21,7 +21,6 @@ export default function index({
 
   for (let i = 0; i < 6; i++) {
     let dice = null;
-    let isDiceSelected = selection[i];
     let isDiceAnimated = animate_dice_roll;
     let isDiceAlreadyUsed = usedDice[i];
 
