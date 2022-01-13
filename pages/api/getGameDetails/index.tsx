@@ -19,8 +19,6 @@ export default async function handler(
   let playerList = await getPlayers(gameID);
   let isHost = await getHostStatus(userID);
 
-  //find host code
-
   //respond with game code
   res.status(200).json({ gameStatus, playerList, isHost });
 }

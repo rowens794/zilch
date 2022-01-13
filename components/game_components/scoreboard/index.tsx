@@ -1,16 +1,10 @@
 import React, { ReactElement } from "react";
 import numeral from "numeral";
 import SectionLabel from "../../text/sectionLabel";
-
-interface Person {
-  name?: string | null;
-  score?: number | null;
-  host?: boolean | null;
-  code?: string | null;
-}
+import { Player } from "../../../utils/interfaces";
 
 interface Props {
-  data: Person[];
+  data: Player[];
   activeUser: string;
 }
 
@@ -18,7 +12,7 @@ export default function index({ data, activeUser }: Props): ReactElement {
   return (
     <div className="w-full">
       <SectionLabel text="Scoreboard" />
-      <div className="w-full px-8 grid grid-cols-2 gap-2">
+      <div className="grid w-full h-32 grid-cols-2 gap-2 px-8">
         {data.map((person, i) => {
           return (
             <Person
@@ -34,33 +28,33 @@ export default function index({ data, activeUser }: Props): ReactElement {
 }
 
 interface PersonProps {
-  data: Person;
+  data: Player;
   activeUser: boolean;
 }
 
 const Person = ({ data, activeUser }: PersonProps) => {
   return (
-    <div className="w-full relative">
+    <div className="relative w-full">
       {data.code && activeUser ? (
-        <p className=" text-yellow-200 font-bold text-shadow truncate overflow-hidden h-6 z-20 relative">
-          {numeral(data.score).format("#,#")}: {data.name}{" "}
+        <p className="relative z-20 h-6 overflow-hidden font-bold text-yellow-200 truncate text-shadow">
+          {numeral(data.banked_score).format("#,#")}: {data.name}{" "}
           {data.host ? "(H)" : ""}
         </p>
       ) : null}
 
       {data.code && !activeUser ? (
-        <p className=" text-white text-shadow truncate overflow-hidden h-6 z-20 relative">
-          {numeral(data.score).format("#,#")}: {data.name}
+        <p className="relative z-20 h-6 overflow-hidden text-white truncate text-shadow">
+          {numeral(data.banked_score).format("#,#")}: {data.name}
         </p>
       ) : null}
 
       {!data.code ? (
-        <p className=" text-white text-shadow truncate overflow-hidden h-6 z-20 relative"></p>
+        <p className="relative z-20 h-6 overflow-hidden text-white truncate text-shadow"></p>
       ) : null}
 
       {activeUser ? (
         <>
-          <div className="absolute -top-1 -left-2 rounded-full bg-red-600 w-6 h-6 z-10 "></div>
+          <div className="absolute top-0 z-10 w-16 h-6 transform bg-red-600 rounded-sm -left-2 -rotate-3"></div>
         </>
       ) : null}
     </div>

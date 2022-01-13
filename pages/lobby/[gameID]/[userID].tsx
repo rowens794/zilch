@@ -144,7 +144,7 @@ export default function Index({
         )}
 
         <div className=" mt-16 mb-10">
-          <p className="text-white font-bold underline mb-4 text-2xl text-shadow">
+          <p className="text-white font-bold mb-4 text-2xl text-shadow">
             Players in Lobby
           </p>
           <div className="grid grid-cols-2 text-white text-lg text-shadow max-w-xs m-auto">

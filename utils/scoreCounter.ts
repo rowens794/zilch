@@ -2,7 +2,12 @@ export const countScore = (
   diceArray: number[],
   selectedArray: boolean[],
   usedDice: number[]
-): [number, boolean, boolean, boolean] => {
+): {
+  score: number;
+  validSelection: boolean;
+  clearedBoard: boolean;
+  zilched: boolean;
+} => {
   let score = 0;
   let validSelection = true;
 
@@ -44,7 +49,7 @@ export const countScore = (
   //determine if zilched
   let zilched = didZilch(diceArray, usedDice);
 
-  return [score, validSelection, clearedBoard, zilched];
+  return { score, validSelection, clearedBoard, zilched };
 };
 
 const countMajorHands = (

@@ -17,7 +17,7 @@ export default function Index({}: Props): ReactElement {
   const checkGameCode = async () => {
     setErr("");
 
-    if (code.length === 6) {
+    if (code.length === 3) {
       const response = await fetch("/api/joinGame/checkGameExists", {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         headers: {
@@ -49,7 +49,6 @@ export default function Index({}: Props): ReactElement {
         });
 
         let res = await response.json();
-        console.log(res);
 
         //ensure that the response was successful and forward to game lobby
         if (res.gameID && res.userID) {

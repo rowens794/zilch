@@ -1,57 +1,67 @@
 import React, { ReactElement } from "react";
+import { Player, Game, GameData } from "../../../utils/interfaces";
 import Dice from "../dice";
 
 interface Props {
-  gameBoardObject: {
-    diceSelections: boolean[];
-    diceValues: number[];
-    stage: number;
-    startOfTurn: boolean;
-    setDiceSelections: Function;
-    usedDice: number[];
-  };
+  gameData: GameData;
+  selection: boolean[];
+  setSelection: Function;
+  userID: string;
 }
 
-export default function index({ gameBoardObject }: Props): ReactElement {
-  let { diceSelections, setDiceSelections, startOfTurn, diceValues, usedDice } =
-    gameBoardObject;
-
+export default function index({
+  gameData,
+  selection,
+  setSelection,
+  userID,
+}: Props): ReactElement {
   let diceArray = [];
+  let usedDice = gameData.game.used_dice;
+  let dice_values = gameData.game.dice_values;
+  let start_of_turn = gameData.game.start_of_turn;
+  let animate_dice_roll = gameData.game.roll_animation_end !== null;
+
   for (let i = 0; i < 6; i++) {
     let dice = null;
+    let isDiceSelected = selection[i];
+    let isDiceAnimated = animate_dice_roll;
+    let isDiceAlreadyUsed = usedDice[i];
 
     if (!usedDice[i]) {
       dice = (
         <Dice
           key={i}
-          diceValues={diceValues}
+          diceValues={dice_values}
           diceNumber={i}
-          diceSelections={diceSelections}
-          setDiceSelections={setDiceSelections}
-          startOfTurn={startOfTurn}
+          diceSelections={selection}
+          setDiceSelections={setSelection}
+          startOfTurn={start_of_turn}
           diceRotation={diceRotation[i]} // css to style each dice
-          deadDice={startOfTurn ? true : false}
+          deadDice={start_of_turn ? true : false}
+          animateDice={isDiceAnimated && !isDiceAlreadyUsed}
         />
       );
     } else {
       dice = (
         <Dice
           key={i}
-          diceValues={diceValues}
+          diceValues={dice_values}
           diceNumber={i}
-          diceSelections={diceSelections}
-          setDiceSelections={setDiceSelections}
-          startOfTurn={startOfTurn}
+          diceSelections={selection}
+          setDiceSelections={setSelection}
+          startOfTurn={start_of_turn}
           diceRotation={diceRotation[i]} // css to style each dice
           deadDice={true}
+          animateDice={isDiceAnimated && !isDiceAlreadyUsed}
         />
       );
     }
 
     diceArray.push(dice);
   }
+
   return (
-    <div className="w-full grid grid-cols-3 gap-x-5 gap-y-2 h-64 px-12 py-6 max-w-sm select-none">
+    <div className="grid w-full h-64 max-w-sm grid-cols-3 px-12 py-6 select-none gap-x-5 gap-y-2">
       {diceArray}
     </div>
   );

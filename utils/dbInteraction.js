@@ -2,7 +2,7 @@ const { Pool } = require("pg");
 const pool = new Pool({
   connectionString: process.env.DB_CONNECTION,
   connectionTimeoutMillis: 1000,
-  idleTimeoutMillis: 500,
+  idleTimeoutMillis: 1000,
   max: 5,
 });
 
@@ -38,15 +38,28 @@ export const setupTables = () => {
     //create tables
     await client.query(`
       CREATE TABLE game (
-          code              CHAR(6) PRIMARY KEY,
-          game_started      BOOL,
-          turn              INT,
-          players           VARCHAR(10)[],
-          activePlayer      VARCHAR(10),
-          creation_date     TIMESTAMPTZ,
-          dice_values       INT[],
-          used_dice         INT[],
-          dice_selection    BOOL[]
+          code                            CHAR(3) PRIMARY KEY,
+          creation_date                   TIMESTAMPTZ,
+          game_started                    BOOL,
+          game_stage                      INT DEFAULT 1,
+          players                         VARCHAR(10)[],
+          active_player                   VARCHAR(10),
+          start_of_turn                   BOOL,
+          roll_id                         CHAR(6),
+          roll_animation_end              TIMESTAMPTZ,
+          zilched                         BOOL,
+          zilch_animation_start           TIMESTAMPTZ,
+          zilch_animation_end             TIMESTAMPTZ,
+          next_up                         BOOL,
+          next_up_animation_start         TIMESTAMPTZ,
+          next_up_animation_end           TIMESTAMPTZ,
+          banked_score                    BOOL,
+          banked_score_animation_start    TIMESTAMPTZ,
+          banked_score_animation_end      TIMESTAMPTZ,
+          dice_values                     INT[],
+          used_dice                       INT[],
+          dice_selection                  BOOL[],
+          board_cleared                   BOOL
       );`);
 
     await client.query(`
@@ -54,7 +67,8 @@ export const setupTables = () => {
           code              VARCHAR(6) PRIMARY KEY,
           game              CHAR(6) ,      
           name              VARCHAR(10),
-          score             INT,
+          turn_score        INT,
+          banked_score      INT,
           host              BOOL,
           creation_date     TIMESTAMPTZ,
           CONSTRAINT fk_game

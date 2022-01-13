@@ -31,7 +31,6 @@ export default function Index({}: Props): ReactElement {
           return res.json();
         })
         .then((res) => {
-          console.log(res);
           window.location.href = `/lobby/${res.gameID}/${res.userID}`;
         });
     } else {

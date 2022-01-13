@@ -6,9 +6,9 @@ interface Props {}
 
 export default function Index({}: Props): ReactElement {
   return (
-    <div className="bg-red-700 w-full h-screen relative flex justify-center">
+    <div className="relative flex justify-center w-full h-screen bg-red-700">
       <div className="text-center">
-        <p className="text-7xl font-extrabold text-white m-auto w-full text-center my-24 text-shadow-lg">
+        <p className="w-full m-auto my-24 font-extrabold text-center text-white text-7xl text-shadow-lg">
           ZILCH!
         </p>
         <PrimaryNavButton href="/create-game" text="Create Game" />
@@ -19,7 +19,7 @@ export default function Index({}: Props): ReactElement {
 }
 
 export async function getServerSideProps(context: any) {
-  // await setupTables();
+  await setupTables();
 
   return {
     props: {

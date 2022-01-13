@@ -1,4 +1,5 @@
 import React, { ReactElement, useState, useEffect } from "react";
+import styles from "./dice.module.css";
 
 interface Props {
   diceNumber: number;
@@ -8,6 +9,7 @@ interface Props {
   setDiceSelections: Function;
   diceRotation: string;
   deadDice: boolean;
+  animateDice: boolean;
 }
 
 export default function Index({
@@ -15,33 +17,39 @@ export default function Index({
   diceValues, //the final number all dice are to display
   diceRotation, //sets the css for dice placement
   diceSelections, // array holding whether dice is selected
-  startOfTurn, //keeps track of whether it is the start of a players turn (prevents auto-rolling)
+  // startOfTurn, //keeps track of whether it is the start of a players turn (prevents auto-rolling)
   setDiceSelections, //function to change selected dice
   deadDice, //determines whether the dice is live or not
+  animateDice,
 }: Props): ReactElement {
   let [num, setNum] = useState(1);
+  let [intervalID, setIntervalID] = useState<NodeJS.Timer | null>(null);
 
   useEffect(() => {
     let SPEED = 100; //ms
-    let timeToRun = 1500; //
-    let counter = 0;
 
-    if (!startOfTurn && !deadDice) {
+    if (animateDice && !intervalID) {
       // runs dice animation for a period of time set by timeToRun
       // at a speed in ms set by SPEED
       let intervalID = setInterval(() => {
         let roll = randomIntFromInterval(1, 6);
-        counter += SPEED;
         setNum(roll);
-
-        //once the counter reaches the timeToRun clear the interval and set the true value
-        if (counter > timeToRun) {
-          clearInterval(intervalID);
-          setNum(diceValues[diceNumber]);
-        }
       }, SPEED);
+
+      setIntervalID(intervalID);
     }
-  }, [diceValues, diceNumber, startOfTurn, setNum, deadDice]);
+
+    if (intervalID && !animateDice) {
+      clearInterval(intervalID);
+      setIntervalID(null);
+      setNum(diceValues[diceNumber]);
+    }
+  }, [animateDice, setNum, intervalID, diceValues, diceNumber]);
+
+  useEffect(() => {
+    //resets numbers on page load (without animation)
+    setNum(diceValues[diceNumber]);
+  }, [diceValues, diceNumber]);
 
   return (
     <>
@@ -54,13 +62,19 @@ export default function Index({
           setDiceSelections={setDiceSelections}
         />
       ) : (
-        <DeadDice diceRotation={diceRotation} num={num} />
+        <DeadDice
+          diceSelections={diceSelections}
+          diceNumber={diceNumber}
+          diceRotation={diceRotation}
+          num={num}
+          setDiceSelections={setDiceSelections}
+        />
       )}
     </>
   );
 }
 
-interface LiveDiceProps {
+interface DiceProps {
   diceSelections: Boolean[];
   diceNumber: number;
   diceRotation: string;
@@ -74,7 +88,7 @@ const LiveDice = ({
   diceRotation,
   setDiceSelections,
   num,
-}: LiveDiceProps) => {
+}: DiceProps) => {
   const selectDice = () => {
     let adjustedSelections = [...diceSelections];
     adjustedSelections[diceNumber] = !adjustedSelections[diceNumber];
@@ -85,10 +99,10 @@ const LiveDice = ({
     <>
       {diceSelections[diceNumber] ? (
         <div
-          className={` w-16 h-16 bg-white rounded-md border-2 border-yellow-300 m-auto drop-shadow-harshYellow ${diceRotation} select-none`}
+          className={` w-16 h-16 bg-white rounded-md border-2 border-yellow-300 m-auto drop-shadow-harshYellow ${diceRotation} select-none `}
         >
           <p
-            className="text-6xl m-auto w-full text-center text-gray-700 cursor-pointer"
+            className="w-full m-auto text-6xl text-center text-gray-700 cursor-pointer"
             onClick={selectDice}
           >
             {num}
@@ -99,7 +113,7 @@ const LiveDice = ({
           className={`w-16 h-16 bg-white rounded-md border border-gray-900 m-auto drop-shadow-harshDkRed ${diceRotation} select-none`}
         >
           <p
-            className="text-6xl m-auto w-full text-center text-gray-700 cursor-pointer"
+            className="w-full m-auto text-6xl text-center text-gray-700 cursor-pointer"
             onClick={selectDice}
           >
             {num}
@@ -110,20 +124,17 @@ const LiveDice = ({
   );
 };
 
-interface DeadDiceProps {
-  diceRotation: string;
-  num: number;
-}
-
-const DeadDice = ({ num, diceRotation }: DeadDiceProps) => {
+const DeadDice = ({ diceRotation, num }: DiceProps) => {
   return (
-    <div
-      className={` w-16 h-16 bg-gray-400 rounded-md border-2 border-gray-800 m-auto drop-shadow-harshDkRed ${diceRotation} select-none`}
-    >
-      <p className="text-6xl m-auto w-full text-center text-gray-700 cursor-pointer">
-        {num}
-      </p>
-    </div>
+    <>
+      <div
+        className={` w-16 h-16 bg-gray-400 rounded-md border border-gray-800 m-auto drop-shadow-harshDkRed ${diceRotation} select-none`}
+      >
+        <p className="w-full m-auto text-6xl text-center text-gray-700 cursor-pointer">
+          {num}
+        </p>
+      </div>
+    </>
   );
 };
 

@@ -1,14 +1,8 @@
-Putting the roll on the game
+I set board_cleared in api/game/takePoints
 
-dice values
-usedDice
-diceSelection
+V24V8V, Lou
+GEIFLI, Jake
+6HT9R8 larry
 
-api routes needed
-/setUsedDice
-/rollDice
-/setSelectedDice
-
-functions
-
-- rollDice
+[V24V8V,GEIFLI,6HT9R8]
+[lou, jake, larry]
