@@ -96,6 +96,7 @@ export default function Index({
         displayActions={gameData.activePlayer.userID === userID}
         score={score}
         actionFunctions={actionFunctions}
+        gameData={gameData}
       />
       <WhosRolling
         displayPlayerName={gameData.activePlayer.userID !== userID}

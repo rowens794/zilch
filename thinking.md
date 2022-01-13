@@ -1,8 +1,4 @@
-I set board_cleared in api/game/takePoints
-
-V24V8V, Lou
-GEIFLI, Jake
-6HT9R8 larry
-
-[V24V8V,GEIFLI,6HT9R8]
-[lou, jake, larry]
+- stop initial roll animation on game load
+- add shake to dice on roll animation
+- set a 750 point pergatory pre-bank
+- set a final roll after 1 player hits 10,000 points

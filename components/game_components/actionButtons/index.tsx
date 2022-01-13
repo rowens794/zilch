@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 import RollButton from "../../buttons/roll-button";
 import BankButton from "../../buttons/bank-button";
 import CollectButton from "../../buttons/collect-button";
-import { Score } from "../../../utils/interfaces";
+import { Score, GameData, Player } from "../../../utils/interfaces";
 
 interface Props {
   gameStage: number;
@@ -13,6 +13,7 @@ interface Props {
     takePoints: () => void;
     bankPoints: () => void;
   };
+  gameData: GameData;
 }
 
 export default function Index({
@@ -21,7 +22,9 @@ export default function Index({
   displayActions,
   score,
   actionFunctions,
+  gameData,
 }: Props): ReactElement {
+  const rollPergatory = inRollPergatory(gameData);
   return (
     <>
       {displayActions ? (
@@ -85,12 +88,21 @@ export default function Index({
             ) : null}
 
             {/* //stage 4 ------------------------------ // */}
+
             {gameStage === 4 ? (
-              <BankButton
-                label={`Bank Points`}
-                action={actionFunctions.bankPoints}
-                active={true}
-              />
+              rollPergatory ? (
+                <BankButton
+                  label={`Pergatory`}
+                  action={() => {}}
+                  active={false}
+                />
+              ) : (
+                <BankButton
+                  label={`Bank Points`}
+                  action={actionFunctions.bankPoints}
+                  active={true}
+                />
+              )
             ) : null}
 
             {gameStage === 4 ? (
@@ -106,3 +118,16 @@ export default function Index({
     </>
   );
 }
+
+const inRollPergatory = (gameData: GameData) => {
+  let userID = gameData.activePlayer.userID;
+  let player: Player = gameData.playerList.filter(
+    (obj) => obj.code === userID
+  )[0];
+
+  if (player.banked_score < 750 && player.turn_score < 750) {
+    return true;
+  } else {
+    return false;
+  }
+};
