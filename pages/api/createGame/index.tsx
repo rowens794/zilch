@@ -46,7 +46,7 @@ export default async function handler(
     usedDice,
     diceSelection,
     true,
-    new Date(),
+    null,
     1,
   ]);
 

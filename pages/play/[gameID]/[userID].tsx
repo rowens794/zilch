@@ -89,7 +89,6 @@ export default function Index({
         gameData={gameData}
         selection={selection}
         setSelection={setSelection}
-        userID={userID}
       />
       <ActionButtons
         gameStage={stage.gameStage}

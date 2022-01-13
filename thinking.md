@@ -1,4 +1,5 @@
 - stop initial roll animation on game load
 - add shake to dice on roll animation
-- set a 750 point pergatory pre-bank
 - set a final roll after 1 player hits 10,000 points
+- prevent input dropdowns
+- change message text color

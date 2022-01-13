@@ -1,19 +1,17 @@
 import React, { ReactElement } from "react";
-import { Player, Game, GameData } from "../../../utils/interfaces";
+import { GameData } from "../../../utils/interfaces";
 import Dice from "../dice";
 
 interface Props {
   gameData: GameData;
   selection: boolean[];
   setSelection: Function;
-  userID: string;
 }
 
 export default function index({
   gameData,
   selection,
   setSelection,
-  userID,
 }: Props): ReactElement {
   let diceArray = [];
   let usedDice = gameData.game.used_dice;
