@@ -46,14 +46,9 @@ const getName = (
   userID: string,
   setPlayerName: Function
 ) => {
-  let playerName = gameData.activePlayerName
-    ? gameData.activePlayerName.name
-    : "";
+  let playerName = gameData.activePlayer ? gameData.activePlayer.name : "";
 
-  if (
-    gameData.activePlayerName &&
-    gameData.activePlayerName.userID === userID
-  ) {
+  if (gameData.activePlayer && gameData.activePlayer.userID === userID) {
     playerName = "You";
   }
 
