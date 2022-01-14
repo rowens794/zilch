@@ -84,7 +84,7 @@ export default function Index({
   };
 
   return (
-    <div className="relative w-full h-screen max-w-sm m-auto bg-red-700">
+    <div className="relative w-full h-full m-auto bg-red-700">
       <GameBoard
         gameData={gameData}
         selection={selection}

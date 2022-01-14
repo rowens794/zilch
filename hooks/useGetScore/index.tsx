@@ -40,7 +40,3 @@ export const useGetScore = (gameData: GameData, selection: boolean[]) => {
 
   return score;
 };
-
-//calculate the score for two scenarios:
-//   If the active player is rolling
-//   If another player in the same game is rolling

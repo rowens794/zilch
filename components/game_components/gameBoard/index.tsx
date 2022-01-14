@@ -58,7 +58,7 @@ export default function index({
   }
 
   return (
-    <div className="grid w-full h-64 max-w-sm grid-cols-3 px-12 py-6 select-none gap-x-5 gap-y-2">
+    <div className="grid w-full h-64 grid-cols-3 px-12 py-6 select-none gap-x-5 gap-y-2">
       {diceArray}
     </div>
   );

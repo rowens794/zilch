@@ -39,12 +39,12 @@ export default function Index({}: Props): ReactElement {
   };
 
   return (
-    <div className="bg-red-700 w-full h-screen relative flex justify-center">
-      <div className="text-center mt-24">
-        <p className="text-2xl text-shadow-md font-bold text-white m-auto w-full text-center ">
+    <div className="relative flex justify-center w-full h-full bg-red-700">
+      <div className="mt-24 text-center">
+        <p className="w-full m-auto text-2xl font-bold text-center text-white text-shadow-md ">
           Start a
         </p>
-        <p className="text-7xl font-extrabold text-shadow-lg text-white m-auto w-full text-center">
+        <p className="w-full m-auto font-extrabold text-center text-white text-7xl text-shadow-lg">
           ZILCH!
         </p>
 

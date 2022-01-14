@@ -111,7 +111,7 @@ export default function Index({
   });
 
   return (
-    <div className="relative flex justify-center w-full h-screen bg-red-700">
+    <div className="relative flex justify-center w-full h-full bg-red-700">
       <div className="w-full mt-12 text-center">
         <p className="w-full m-auto text-4xl font-extrabold text-center text-white text-shadow-lg">
           ZILCH!

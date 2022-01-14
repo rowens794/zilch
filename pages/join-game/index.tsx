@@ -89,12 +89,12 @@ export default function Index({}: Props): ReactElement {
   };
 
   return (
-    <div className="bg-red-700 w-full h-screen relative flex justify-center">
-      <div className="text-center mt-24">
-        <p className="text-2xl text-shadow-md font-bold text-white m-auto w-full text-center ">
+    <div className="relative flex justify-center w-full h-full bg-red-700">
+      <div className="mt-24 text-center">
+        <p className="w-full m-auto text-2xl font-bold text-center text-white text-shadow-md ">
           Join a
         </p>
-        <p className="text-7xl font-extrabold text-shadow-lg text-white m-auto w-full text-center">
+        <p className="w-full m-auto font-extrabold text-center text-white text-7xl text-shadow-lg">
           ZILCH!
         </p>
 
@@ -149,11 +149,11 @@ const Progress = ({ step }: ProgressProps) => {
       <>
         {active ? (
           <div className="text-center">
-            <div className="bg-yellow-300 rounded-full w-4 h-4 inline-block drop-shadow-harshDkRed" />
+            <div className="inline-block w-4 h-4 bg-yellow-300 rounded-full drop-shadow-harshDkRed" />
           </div>
         ) : (
           <div className="text-center">
-            <div className="bg-white rounded-full w-4 h-4 inline-block drop-shadow-harshDkRed" />
+            <div className="inline-block w-4 h-4 bg-white rounded-full drop-shadow-harshDkRed" />
           </div>
         )}
       </>
@@ -161,9 +161,9 @@ const Progress = ({ step }: ProgressProps) => {
   };
 
   return (
-    <div className="m-auto mt-6 w-full text-center">
+    <div className="w-full m-auto mt-6 text-center">
       <div className="relative inline-block">
-        <div className="relative grid grid-cols-2 w-20 text-center">
+        <div className="relative grid w-20 grid-cols-2 text-center">
           <Bubble active={step >= 1} />
           <Bubble active={step === 2} />
         </div>

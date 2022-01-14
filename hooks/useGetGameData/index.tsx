@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { GameData, emptyGameData, Player } from "../../utils/interfaces";
+import { GameData } from "../../utils/interfaces";
 
 export const useGetGameData = (
   gameID: string,
