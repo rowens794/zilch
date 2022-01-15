@@ -27,8 +27,14 @@ export default async function handler(
   //set the active player
   let activePlayer = parsedPlayerList[0];
 
-  const updateGame = `UPDATE game SET game_started = $1, players=$2, active_player=$3 WHERE code = $4;`;
-  await runQuery(updateGame, [true, parsedPlayerList, activePlayer, gameID]);
+  const updateGame = `UPDATE game SET game_started = $1, players=$2, active_player=$3, announce_winner=$4 WHERE code = $5;`;
+  await runQuery(updateGame, [
+    true,
+    parsedPlayerList,
+    activePlayer,
+    false,
+    gameID,
+  ]);
 
   //respond with game code
   res.status(200).json({ gameStarted: true });

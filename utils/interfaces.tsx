@@ -19,9 +19,14 @@ export interface Game {
   banked_score: boolean | null;
   banked_score_animation_start: Date | null;
   banked_score_animation_end: Date | null;
+  last_turn_triggered: boolean | null;
+  last_turn_triggered_by: string | null;
+  last_turn_animation_start: Date | null;
+  last_turn_animation_end: Date | null;
   roll_animation_end: Date | null;
   start_of_turn: boolean;
   board_cleared: boolean | null;
+  announce_winner: boolean;
 }
 
 export function emptyGame(): Game {
@@ -46,9 +51,14 @@ export function emptyGame(): Game {
     banked_score: null,
     banked_score_animation_start: null,
     banked_score_animation_end: null,
+    last_turn_triggered: null,
+    last_turn_triggered_by: null,
+    last_turn_animation_start: null,
+    last_turn_animation_end: null,
     roll_animation_end: null,
     start_of_turn: true,
     board_cleared: false,
+    announce_winner: false,
   };
 }
 

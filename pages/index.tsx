@@ -19,7 +19,7 @@ export default function Index({}: Props): ReactElement {
 }
 
 export async function getServerSideProps(context: any) {
-  // await setupTables();
+  await setupTables();
 
   return {
     props: {

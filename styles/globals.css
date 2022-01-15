@@ -6,6 +6,9 @@
 @layer utilities {
   @variants responsive {
     /* Harsh dark red text shadows */
+    .text-shadow-sm {
+      text-shadow: 2px 2px 1px #7f1d1d;
+    }
     .text-shadow {
       text-shadow: 3px 3px 1px #7f1d1d;
     }

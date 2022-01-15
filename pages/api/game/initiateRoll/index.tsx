@@ -46,7 +46,7 @@ export default async function handler(
       nextUpAnimationEnd,
     } = getZilchAnimationTimes(zilched, diceAnimationEnd);
 
-    //step 6: update the game document
+    //step 7: update the game document
     let rollId = await updateGame(
       gameID,
       game.dice_values,

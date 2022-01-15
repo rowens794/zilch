@@ -1,4 +1,4 @@
-const { Pool } = require("pg");
+const { Pool, Client } = require("pg");
 const pool = new Pool({
   connectionString: process.env.DB_CONNECTION,
   connectionTimeoutMillis: 1000,
@@ -26,6 +26,26 @@ export const runQuery = (queryText, inputArray) => {
   return promise;
 };
 
+export const runQueryClient = (queryText, inputArray) => {
+  let promise = new Promise(async (resolve, reject) => {
+    const client = new Client({
+      connectionString: process.env.DB_CONNECTION,
+      connectionTimeoutMillis: 1000,
+      idleTimeoutMillis: 1000,
+      max: 5,
+    });
+
+    await client.connect();
+
+    const queryResult = await client.query(queryText, inputArray);
+    await client.end();
+
+    resolve(queryResult);
+  });
+
+  return promise;
+};
+
 export const setupTables = () => {
   let promise = new Promise(async (resolve, reject) => {
     const client = await pool.connect();
@@ -42,8 +62,8 @@ export const setupTables = () => {
           creation_date                   TIMESTAMPTZ,
           game_started                    BOOL,
           game_stage                      INT DEFAULT 1,
-          players                         VARCHAR(10)[],
-          active_player                   VARCHAR(10),
+          players                         VARCHAR(6)[],
+          active_player                   VARCHAR(6),
           start_of_turn                   BOOL,
           roll_id                         CHAR(6),
           roll_animation_end              TIMESTAMPTZ,
@@ -56,10 +76,15 @@ export const setupTables = () => {
           banked_score                    BOOL,
           banked_score_animation_start    TIMESTAMPTZ,
           banked_score_animation_end      TIMESTAMPTZ,
+          last_turn_triggered             BOOL,
+          last_turn_animation_start       TIMESTAMPTZ,
+          last_turn_animation_end         TIMESTAMPTZ,
+          last_turn_triggered_by          Char(6),
           dice_values                     INT[],
           used_dice                       INT[],
           dice_selection                  BOOL[],
-          board_cleared                   BOOL
+          board_cleared                   BOOL,
+          announce_winner                 BOOL
       );`);
 
     await client.query(`

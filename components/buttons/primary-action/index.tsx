@@ -8,7 +8,7 @@ interface Props {
 export default function Index({ action, label }: Props): ReactElement {
   return (
     <button
-      className=" bg-white p-4 text-red-800 text-xl my-2 drop-shadow-harshDkRed tranform -rotate-2 font-extrabold w-48"
+      className="w-48 p-4 my-2 text-xl font-extrabold text-red-800 bg-white  drop-shadow-harshDkRed tranform -rotate-2"
       onClick={(e) => action(e)}
     >
       {label}

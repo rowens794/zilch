@@ -29,15 +29,20 @@ export default async function handler(
     await stopRollAnimation(gameID);
   }
 
+  //check if game should be ended
+  if (game.last_turn_triggered_by === userID) {
+    await announceWinner(gameID);
+  }
+
   //Host activities - These will only execute on host's request (to prevent multiple executions)
   let isHostRequest = checkIfRequestIsHost(userID, playerList);
-
   if (isHostRequest) {
     let transitionOnZilch = await checkZilch(game); // starts and stops zilch animations for all players
     if (transitionOnZilch) await clearPlayerScore(game); // clears the player's scores if zilch occurs
     let transitionOnBank = await checkBank(game); // starts the bank animation process
     if (transitionOnBank) await bankPlayerScore(game); // clears the player's scores on bank
     if (transitionOnZilch || transitionOnBank) await transitionPlayer(game);
+    if (game.last_turn_animation_end) await checkLastTurn(game); //checks and sets last_turn appropriotely
     checkNextUp(game); //checks and sets next_up appropriotely
   }
 
@@ -211,6 +216,56 @@ const checkBank = (game: Game): Promise<boolean> => {
   return promise;
 };
 
+//determines if the player transition process should begin
+const checkLastTurn = (game: Game): Promise<null> => {
+  const stopLastTurnAnimation = (gameID: string): Promise<null> => {
+    let promise = new Promise<null>(async (resolve, reject) => {
+      const updateGame = `UPDATE game SET last_turn_animation_start=$1, last_turn_animation_end=$2, last_turn_triggered=$3 WHERE code = $4;`;
+      await runQuery(updateGame, [null, null, null, gameID]);
+
+      resolve(null);
+    });
+
+    return promise;
+  };
+
+  const startLastTurnAnimation = (gameID: string): Promise<null> => {
+    let promise = new Promise<null>(async (resolve, reject) => {
+      const updateGame = `UPDATE game SET last_turn_triggered=$1 WHERE code = $2;`;
+      await runQuery(updateGame, [true, gameID]);
+
+      resolve(null);
+    });
+
+    return promise;
+  };
+
+  let gameID = game.code;
+
+  let promise = new Promise<null>(async (resolve, reject) => {
+    let transitionPlayer = false;
+    //check if last turn animation should be stopped
+
+    if (
+      game.last_turn_animation_start &&
+      game.last_turn_animation_start < new Date()
+    ) {
+      await startLastTurnAnimation(gameID);
+    }
+
+    if (
+      game.last_turn_animation_end &&
+      game.last_turn_animation_end < new Date()
+    ) {
+      await stopLastTurnAnimation(gameID);
+    }
+
+    resolve(null);
+  });
+
+  return promise;
+};
+
 const checkNextUp = (game: Game): Promise<null> => {
   const startNextUpAnimation = (gameID: string): Promise<null> => {
     let promise = new Promise<null>(async (resolve, reject) => {
@@ -332,6 +387,16 @@ const transitionPlayer = (game: Game) => {
       gameID,
     ]);
 
+    resolve(null);
+  });
+
+  return promise;
+};
+
+const announceWinner = (gameID: string) => {
+  let promise = new Promise(async (resolve, reject) => {
+    const updateGame = `UPDATE game SET announce_winner = $1 WHERE code = $2;`;
+    await runQuery(updateGame, [true, gameID]);
     resolve(null);
   });
 

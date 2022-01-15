@@ -1,7 +1,5 @@
 import React, { ReactElement } from "react";
 import numeral from "numeral";
-import SectionLabel from "../../text/sectionLabel";
-import { Player } from "../../../utils/interfaces";
 
 interface Props {
   turnScore: number;
@@ -30,7 +28,7 @@ export default function index({
         ) : null}
 
         {gameStage === 3 && !validSelection ? (
-          <p className="mt-2 italic font-light text-center text-yellow-200 text-shadow">
+          <p className="italic font-light text-center text-yellow-200 text-shadow">
             Invalid combination
           </p>
         ) : null}

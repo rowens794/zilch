@@ -20,10 +20,28 @@ export default async function handler(
   let bankScoreAnimationEnd = new Date();
   let nextUpAnimationStart = new Date();
   let nextUpAnimationEnd = new Date();
+  let last_turn_animation_start = null;
+  let last_turn_animation_end = null;
+  let last_turn_triggered = null;
+  let last_turn_triggered_by = null;
+
   bankScoreAnimationStart.setSeconds(bankScoreAnimationStart.getSeconds() + 0);
   bankScoreAnimationEnd.setSeconds(bankScoreAnimationStart.getSeconds() + 2);
-  nextUpAnimationStart.setSeconds(nextUpAnimationStart.getSeconds() + 2);
-  nextUpAnimationEnd.setSeconds(nextUpAnimationEnd.getSeconds() + 4);
+  nextUpAnimationStart.setSeconds(bankScoreAnimationStart.getSeconds() + 2);
+  nextUpAnimationEnd.setSeconds(bankScoreAnimationStart.getSeconds() + 4);
+
+  //check if the user has surpassed final score and if so set trigger and announce to players
+  if (player.turn_score + player.banked_score >= 10000) {
+    last_turn_animation_start = new Date();
+    last_turn_animation_end = new Date();
+    last_turn_animation_start.setSeconds(
+      bankScoreAnimationStart.getSeconds() + 4
+    );
+    last_turn_animation_end.setSeconds(
+      bankScoreAnimationStart.getSeconds() + 6
+    );
+    last_turn_triggered_by = player.code;
+  }
 
   //update game with bank_score info
   await updateGame(
@@ -31,7 +49,11 @@ export default async function handler(
     bankScoreAnimationStart,
     bankScoreAnimationEnd,
     nextUpAnimationStart,
-    nextUpAnimationEnd
+    nextUpAnimationEnd,
+    last_turn_animation_start,
+    last_turn_animation_end,
+    last_turn_triggered,
+    last_turn_triggered_by
   );
 
   //update turn_score on player document
@@ -41,17 +63,6 @@ export default async function handler(
     status: "success",
   });
 }
-
-const getGame = (gameID: string): Promise<Game> => {
-  let promise: Promise<Game> = new Promise(async (resolve, reject) => {
-    const gameQueryText = `SELECT * FROM game WHERE code = $1`;
-    let gameStartedQuery = await runQuery(gameQueryText, [gameID]);
-
-    resolve(gameStartedQuery.rows[0]);
-  });
-
-  return promise;
-};
 
 const getPlayer = (gameID: string): Promise<Player> => {
   let promise: Promise<Player> = new Promise(async (resolve, reject) => {
@@ -83,7 +94,11 @@ const updateGame = (
   bankScoreAnimationStart: Date,
   bankScoreAnimationEnd: Date,
   nextUpAnimationStart: Date,
-  nextUpAnimationEnd: Date
+  nextUpAnimationEnd: Date,
+  last_turn_animation_start: Date | null,
+  last_turn_animation_end: Date | null,
+  last_turn_triggered: boolean | null,
+  last_turn_triggered_by: string | null
 ): Promise<null> => {
   let promise: Promise<null> = new Promise(async (resolve, reject) => {
     const updateGame = `
@@ -92,14 +107,22 @@ const updateGame = (
         banked_score_animation_start = $1, 
         banked_score_animation_end=$2, 
         next_up_animation_start=$3, 
-        next_up_animation_end=$4
-      WHERE code = $5;
+        next_up_animation_end=$4,
+        last_turn_animation_start=$5,
+        last_turn_animation_end=$6,
+        last_turn_triggered=$7,
+        last_turn_triggered_by=$8
+      WHERE code = $9;
       `;
     await runQuery(updateGame, [
       bankScoreAnimationStart,
       bankScoreAnimationEnd,
       nextUpAnimationStart,
       nextUpAnimationEnd,
+      last_turn_animation_start,
+      last_turn_animation_end,
+      last_turn_triggered,
+      last_turn_triggered_by,
       gameID,
     ]);
 

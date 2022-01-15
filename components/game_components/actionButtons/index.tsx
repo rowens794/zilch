@@ -29,7 +29,7 @@ export default function Index({
     <>
       {displayActions ? (
         <div>
-          <div className="grid w-full grid-cols-2 px-4 my-4">
+          <div className="grid w-full grid-cols-2 px-4 my-2 xs:my-4">
             {/* //stage 1 ------------------------------ // */}
             {gameStage === 1 ? (
               <BankButton

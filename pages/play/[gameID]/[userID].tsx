@@ -1,18 +1,24 @@
 import React, { ReactElement, useState, useEffect } from "react";
+import { EyeIcon } from "@heroicons/react/solid";
+
 import Scoreboard from "../../../components/game_components/scoreboard";
 import RollScore from "../../../components/game_components/rollScore";
+import LastTurnWarning from "../../../components/game_components/lastTurnWarning";
 import WhosRolling from "../../../components/game_components/whosRolling";
 import GameBoard from "../../../components/game_components/gameBoard";
 import ActionButtons from "../../../components/game_components/actionButtons";
 import Zilch from "../../../components/game_components/zilchedMessage";
 import NextUp from "../../../components/game_components/nextUpMessage";
+import LastTurn from "../../../components/game_components/announceLastTurn";
 import BankedPoints from "../../../components/game_components/bankedPointsMessage";
-import { Player, Game, GameData } from "../../../utils/interfaces";
+import RulesSlider from "../../../components/game_components/rulesSlider";
+import { GameData } from "../../../utils/interfaces";
 
 //custom hooks
 import { useGetGameData } from "../../../hooks/useGetGameData";
 import { useGetScore } from "../../../hooks/useGetScore";
 import { useGameStage } from "../../../hooks/useGameStage";
+import { useAnnounceWinner } from "../../../hooks/useAnnounceWinner";
 
 interface Props {
   gameID: string;
@@ -25,7 +31,7 @@ export default function Index({
   userID,
   initialGameData,
 }: Props): ReactElement {
-  //state
+  const [rulesOpen, setRulesOpen] = useState(false);
   const [selection, setSelection] = useState([
     false,
     false,
@@ -38,7 +44,8 @@ export default function Index({
   //custom hooks
   const gameData = useGetGameData(gameID, userID, 500, initialGameData); //retrieves game data every XXXX milliseconds
   const stage = useGameStage(gameData.game); //includes function to set stage + checks to auto-increment stage
-  const score = useGetScore(gameData, selection);
+  const score = useGetScore(gameData, selection); //calculates score
+  useAnnounceWinner(gameData.game); //runs a check to determine winner
 
   //function to hit api and roll dice
   function initiateRoll() {
@@ -85,6 +92,10 @@ export default function Index({
 
   return (
     <div className="relative w-full h-full m-auto bg-red-700">
+      <button type="button" onClick={() => setRulesOpen(true)}>
+        <EyeIcon className="absolute w-8 h-8 text-red-300 top-2 right-2" />
+      </button>
+      <RulesSlider open={rulesOpen} setOpen={setRulesOpen} />
       <GameBoard
         gameData={gameData}
         selection={selection}
@@ -105,11 +116,16 @@ export default function Index({
         turnScore={score.turnScore}
         rollScore={score.rollScore}
         gameStage={stage.gameStage}
-        validSelection={true}
+        validSelection={score.validSelection}
       />
+      <LastTurnWarning lastTurnID={gameData.game.last_turn_triggered_by} />
+
+      {/* game state animations */}
       <Zilch gameData={gameData} userID={userID} />
       <NextUp gameData={gameData} userID={userID} />
       <BankedPoints gameData={gameData} userID={userID} />
+      <LastTurn gameData={gameData} userID={userID} />
+
       <div className="absolute w-full bottom-8">
         <Scoreboard
           data={gameData.playerList}

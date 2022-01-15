@@ -11,13 +11,13 @@ export default function Index({ action, label, active }: Props): ReactElement {
     <>
       {active ? (
         <button
-          className=" bg-red-100 p-2 text-red-800 text-xl my-2 drop-shadow-harshDkRed tranform -rotate-2 font-extrabold w-36 mx-auto"
+          className="p-2 mx-auto my-2 text-sm font-extrabold text-red-800 bg-red-100 xs:text-lg w-28 drop-shadow-harshDkRed tranform -rotate-2 xs:w-36"
           onClick={(e) => action(e)}
         >
           {label}
         </button>
       ) : (
-        <button className=" bg-gray-400 p-2 text-red-800 text-xl my-2 drop-shadow-harshDkRed tranform -rotate-2 font-extrabold w-36 mx-auto">
+        <button className="p-2 mx-auto my-2 text-sm font-extrabold text-red-800 bg-gray-400 xs:text-lg w-28 drop-shadow-harshDkRed tranform -rotate-2 xs:w-36">
           {label}
         </button>
       )}
