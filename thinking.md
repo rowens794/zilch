@@ -1,1 +1,0 @@
-- set a final roll after 1 player hits 10,000 points
