@@ -87,7 +87,9 @@ const countMidTierHands = (
 const isOobiJoobi = (score: number, array: number[]): [number, number[]] => {
   let test = true;
 
-  if (array.length === 6) {
+  if (array.length !== 6) {
+    test = false;
+  } else {
     array.forEach((element) => {
       if (element !== array[0]) {
         test = false;

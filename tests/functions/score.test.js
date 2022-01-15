@@ -99,3 +99,13 @@ test("test scoring function : select zilched", () => {
 
   expect(zilched).toEqual(true);
 });
+
+test("test scoring function : select zilched2", () => {
+  let { score, validSelection, clearedBoard, zilched } = countScore(
+    [2, 1, 1, 6, 4, 1],
+    [false, true, false, false, false, false],
+    [0, 1, 1, 0, 0, 1]
+  );
+
+  expect(zilched).toEqual(true);
+});
