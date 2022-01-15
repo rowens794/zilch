@@ -20,12 +20,12 @@ I wanted to build an implementation of the dice game zilch that allowed players 
 
 The overall design of the game is relatively simple. Through the front end, players can access the following pages:
 
-- [Home](/) - The home page. This page is the landing page for the game. It allows players to join a game or create a new game.
-- [Create Game](/create-game) - Create Game page. This page allows a player to setup a new game.
-- [Join Game](/join-game) - Join Game page. This page allows a player to join an existing game.
-- [Lobby](/lobby/[gameID]/[userID]) - Lobby page. This page displays the current game state, who is hosting the game, who is playing in the game and allows the host to control the start of the game.
-- [Game](/game/[gameID]/[userID]) - Game page. Where the action occurs. Allows the host and players to take all actions nessary during the course of the game.
-- [Winner's Circle](/winner-circle/[gameID]) - Winner's Circle page. This page displays the winner of the game and allows the player to play again.
+- [Home](https://github.com/rowens794/zilch/blob/main/pages/index.tsx) - The home page. This page is the landing page for the game. It allows players to join a game or create a new game.
+- [Create Game](https://github.com/rowens794/zilch/blob/main/pages/create-game/index.tsx) - Create Game page. This page allows a player to setup a new game.
+- [Join Game](https://github.com/rowens794/zilch/blob/main/pages/join-game/index.tsx) - Join Game page. This page allows a player to join an existing game.
+- [Lobby](https://github.com/rowens794/zilch/blob/main/pages/lobby/%5BgameID%5D/%5BuserID%5D.tsx) - Lobby page. This page displays the current game state, who is hosting the game, who is playing in the game and allows the host to control the start of the game.
+- [Game](https://github.com/rowens794/zilch/blob/main/pages/play/%5BgameID%5D/%5BuserID%5D.tsx) - Game page. Where the action occurs. Allows the host and players to take all actions nessary during the course of the game.
+- [Winner's Circle](https://github.com/rowens794/zilch/blob/main/pages/winners-circle/%5BgameID%5D.tsx) - Winner's Circle page. This page displays the winner of the game and allows the player to play again.
 
 ## API Endpoints
 
