@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useEffect } from "react";
+import React, { ReactElement, useState } from "react";
 import { EyeIcon } from "@heroicons/react/solid";
 
 import Scoreboard from "../../../components/game_components/scoreboard";

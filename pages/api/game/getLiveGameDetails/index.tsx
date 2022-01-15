@@ -30,7 +30,10 @@ export default async function handler(
   }
 
   //check if game should be ended
-  if (game.last_turn_triggered_by === userID) {
+  if (
+    game.last_turn_triggered_by === game.active_player &&
+    game.start_of_turn === true
+  ) {
     await announceWinner(gameID);
   }
 

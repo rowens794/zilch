@@ -15,7 +15,7 @@ export default function Index({
       {displayPlayerName ? (
         <div>
           <div className="w-full px-4 my-4">
-            <p className="w-full p-2 mx-auto my-2 text-lg font-extrabold text-center text-yellow-800 bg-yellow-200 drop-shadow-harshDkRed tranform -rotate-2">
+            <p className="w-full p-2 mx-auto my-2 text-lg font-extrabold text-center text-yellow-800 bg-yellow-200 max-w-screen-xs drop-shadow-harshDkRed tranform -rotate-2">
               {playerName} IS ROLLING
             </p>
           </div>

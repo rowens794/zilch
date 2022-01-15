@@ -31,7 +31,7 @@ export default async function handler(
   nextUpAnimationEnd.setSeconds(bankScoreAnimationStart.getSeconds() + 4);
 
   //check if the user has surpassed final score and if so set trigger and announce to players
-  if (player.turn_score + player.banked_score >= 10000) {
+  if (player.turn_score + player.banked_score >= 1000) {
     last_turn_animation_start = new Date();
     last_turn_animation_end = new Date();
     last_turn_animation_start.setSeconds(

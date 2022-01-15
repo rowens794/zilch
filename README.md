@@ -49,3 +49,11 @@ Gameplay:
 Winner Announcement:
 
 - [POST /api/getWinner] - Returns sorted array of players and their points, to facilitate winner announcement.
+
+## Database
+
+I'm using PostgreSQL for the database. The database is hosted at supabase. I'm connecting directly to the postgres database on their server, but I have also setup a supabase client in this project, which is not currently being used, but which could be used for pure js access to the database. The client is intialized in the `supabase.client.js` file.
+
+## TODOS
+
+disable join game link after first click
