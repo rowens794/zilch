@@ -57,7 +57,7 @@ export default function Index({}: Props): ReactElement {
             id="name"
           />
 
-          <PrimaryAction label="Start Game!" action={createGame} />
+          <PrimaryAction label="Go to Lobby!" action={createGame} />
         </div>
 
         {err !== "" ? <ErrorMsg msg={err} /> : null}
