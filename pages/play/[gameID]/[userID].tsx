@@ -31,7 +31,9 @@ export default function Index({
   userID,
   initialGameData,
 }: Props): ReactElement {
+  //keeps track of whether or not to show the rules panel during a game
   const [rulesOpen, setRulesOpen] = useState(false);
+  //keeps track of showing users which dice they have selected during their turn
   const [selection, setSelection] = useState([
     false,
     false,
@@ -42,48 +44,51 @@ export default function Index({
   ]);
 
   //custom hooks
-  const gameData = useGetGameData(gameID, userID, 500, initialGameData); //retrieves game data every XXXX milliseconds
-  const stage = useGameStage(gameData.game); //includes function to set stage + checks to auto-increment stage
-  const score = useGetScore(gameData, selection); //calculates score
-  useAnnounceWinner(gameData.game); //runs a check to determine winner
+  const gameData = useGetGameData(gameID, userID, 500, initialGameData); //retrieves game state data every 500 milliseconds
+  const stage = useGameStage(gameData.game); //sets game stage + checks to change stage as necessary based on game obj from db
+  const score = useGetScore(gameData, selection); //calculates score of each roll along with zilch and selection analysis
+  useAnnounceWinner(gameData.game); //runs a check to determine if winner should be announced and forwards to ending game page
 
-  //function to hit api and roll dice
-  function initiateRoll() {
+  //function to hit api and roll dice at the server
+  const initiateRoll = () => {
     //set game stage to 2: which means dice are in motion
     stage.setGameStage(2);
-    let response = fetch(`/api/game/initiateRoll`, {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
+    fetch(`/api/game/initiateRoll`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ gameID, userID }), // body data type must match "Content-Type" header
+      body: JSON.stringify({ gameID, userID }),
     });
 
     return;
-  }
+  };
 
+  //function to take points of a single roll and continue turn ( at the server)
   const takePoints = () => {
     stage.setGameStage(2);
     setSelection([false, false, false, false, false, false]);
-    let response = fetch(`/api/game/takePoints`, {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
+    fetch(`/api/game/takePoints`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ gameID, userID, selection }), // body data type must match "Content-Type" header
+      body: JSON.stringify({ gameID, userID, selection }),
     });
   };
 
+  //function to bank points of a turn end turn ( at the server)
   const bankPoints = () => {
-    let response = fetch(`/api/game/bankPoints`, {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
+    fetch(`/api/game/bankPoints`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ gameID, userID }), // body data type must match "Content-Type" header
+      body: JSON.stringify({ gameID, userID }),
     });
   };
 
+  //three action functions above are put into an object for easier passing into component
   const actionFunctions = {
     rollDice: initiateRoll,
     takePoints: takePoints,
@@ -92,10 +97,13 @@ export default function Index({
 
   return (
     <div className="relative w-full h-full m-auto bg-red-700">
+      {/* Rules Slider */}
       <button type="button" onClick={() => setRulesOpen(true)}>
         <EyeIcon className="absolute w-8 h-8 text-red-300 top-2 right-2" />
       </button>
       <RulesSlider open={rulesOpen} setOpen={setRulesOpen} />
+
+      {/* Game Elements */}
       <GameBoard
         gameData={gameData}
         selection={selection}
@@ -120,23 +128,24 @@ export default function Index({
       />
       <LastTurnWarning lastTurnID={gameData.game.last_turn_triggered_by} />
 
-      {/* game state animations */}
-      <Zilch gameData={gameData} userID={userID} />
-      <NextUp gameData={gameData} userID={userID} />
-      <BankedPoints gameData={gameData} userID={userID} />
-      <LastTurn gameData={gameData} userID={userID} />
-
       <div className="absolute w-full bottom-8">
         <Scoreboard
           data={gameData.playerList}
           activeUser={gameData.activePlayer.userID}
         />
       </div>
+
+      {/* game state notifications */}
+      <Zilch gameData={gameData} userID={userID} />
+      <NextUp gameData={gameData} userID={userID} />
+      <BankedPoints gameData={gameData} userID={userID} />
+      <LastTurn gameData={gameData} userID={userID} />
     </div>
   );
 }
 
-interface Props {}
+// Opportunity for Improvement
+// is there a predefined type definition for context in getServerSideProps?
 
 export async function getServerSideProps(context: any) {
   let { gameID, userID } = context.params;
@@ -145,11 +154,11 @@ export async function getServerSideProps(context: any) {
   const baseUrl = context ? `${protocol}://${context.req.headers.host}` : "";
 
   let response = await fetch(`${baseUrl}/api/game/getLiveGameDetails`, {
-    method: "POST", // *GET, POST, PUT, DELETE, etc.
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ gameID, userID }), // body data type must match "Content-Type" header
+    body: JSON.stringify({ gameID, userID }),
   });
 
   let res = await response.json();

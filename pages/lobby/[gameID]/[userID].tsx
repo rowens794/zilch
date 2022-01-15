@@ -22,13 +22,15 @@ export default function Index({
   let [blinkingEllipse, setBlinkingEllipse] = useState("");
   let [clickedStart, setClickedStart] = useState(false);
 
+  // the abort function will remove a player from a game / or if the host aborts
+  // remove the game and all existing players
   const abort: React.MouseEventHandler = async () => {
     const response = await fetch("/api/abortGame", {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ gameID: isHost ? gameID : null, userID }), // body data type must match "Content-Type" header
+      body: JSON.stringify({ gameID: isHost ? gameID : null, userID }),
     });
 
     let res = await response.json();
@@ -37,6 +39,7 @@ export default function Index({
     if (res.aborted) window.location.href = "/";
   };
 
+  // start game triggers the start of a game inside the database
   const startGame = async () => {
     const response = await fetch("/api/startGame", {
       method: "POST", // *GET, POST, PUT, DELETE, etc.

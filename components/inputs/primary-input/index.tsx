@@ -27,7 +27,7 @@ export default function Index({
         <input
           type="text"
           id={id}
-          className="block w-full p-0 text-xl text-center text-red-900 placeholder-gray-400 bg-white border-b border-gray-400 focus:outline-none sm:text-lg "
+          className="block w-full p-0 text-xl text-center text-red-900 placeholder-gray-400 bg-white focus:outline-none sm:text-lg "
           placeholder={placeholder}
           onChange={(e) => action(e)}
           value={value}

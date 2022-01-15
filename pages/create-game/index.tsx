@@ -21,11 +21,11 @@ export default function Index({}: Props): ReactElement {
   const createGame = async () => {
     if (name !== "") {
       fetch("/api/createGame", {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name: name }), // body data type must match "Content-Type" header
+        body: JSON.stringify({ name: name }),
       })
         .then((res) => {
           return res.json();

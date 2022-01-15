@@ -1,13 +1,9 @@
 import { useState, useEffect } from "react";
-import {
-  Player,
-  Game,
-  emptyPlayer,
-  emptyScore,
-  GameData,
-} from "../../utils/interfaces";
+import { emptyPlayer, emptyScore, GameData } from "../../utils/interfaces";
 import { countScore } from "../../utils/scoreCounter";
 
+// this hook automatically calculates a rolls score, whether the player has zilched
+// and other metrics every time a roll or new dice selection occurs
 export const useGetScore = (gameData: GameData, selection: boolean[]) => {
   //initialize state with dummy data
   const [score, setScore] = useState(emptyScore());

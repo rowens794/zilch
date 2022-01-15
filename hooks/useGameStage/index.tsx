@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Game } from "../../utils/interfaces";
 
+// simple hook to advance the game stage as players take actions
 export const useGameStage = (game: Game) => {
   const [gameStage, setGameStage] = useState(1);
 

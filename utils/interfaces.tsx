@@ -1,3 +1,6 @@
+// in this file I predefine the common objects that are behing has back and forth from the client to the database
+// and setup functions to create empty objects in cases where they are needed
+
 export interface Game {
   code: string;
   game_started: boolean;

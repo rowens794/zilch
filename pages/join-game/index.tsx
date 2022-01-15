@@ -1,5 +1,4 @@
 import React, { ReactElement, useState } from "react";
-import { CheckIcon } from "@heroicons/react/solid";
 
 import PrimaryInput from "../../components/inputs/primary-input";
 import PrimaryAction from "../../components/buttons/primary-action";
@@ -14,6 +13,7 @@ export default function Index({}: Props): ReactElement {
   let [step, setStep] = useState(1);
   let [code, setCode] = useState("");
 
+  //ensure the provided code is accurate or let user know it is not
   const checkGameCode = async () => {
     setErr("");
 
@@ -37,15 +37,16 @@ export default function Index({}: Props): ReactElement {
     }
   };
 
+  //function to add a new user to a game
   const joinGame = async () => {
     if (name.length >= 1) {
       if (name !== "") {
         const response = await fetch("/api/joinGame/addToGame", {
-          method: "POST", // *GET, POST, PUT, DELETE, etc.
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ gameID: code, name }), // body data type must match "Content-Type" header
+          body: JSON.stringify({ gameID: code, name }),
         });
 
         let res = await response.json();
@@ -62,18 +63,20 @@ export default function Index({}: Props): ReactElement {
     }
   };
 
+  //control input into game code input box
   const inputGameCode = (e: React.ChangeEvent<HTMLInputElement>): void => {
     let value = e.target.value;
 
     //remove any preexisting error messages
     setErr("");
 
-    //update the game code (max strlen of 6)
-    if (value.length <= 6) {
+    //update the game code (max strlen of 3)
+    if (value.length <= 3) {
       setCode(e.target.value.toUpperCase());
     }
   };
 
+  //control input into name input box
   const inputName = (e: React.ChangeEvent<HTMLInputElement>): void => {
     let value = e.target.value;
 

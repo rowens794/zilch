@@ -1,6 +1,5 @@
 import React, { ReactElement } from "react";
 import PrimaryNavButton from "../components/buttons/primary-nav";
-import { runQuery, setupTables } from "../utils/dbInteraction";
 
 interface Props {}
 
@@ -16,14 +15,4 @@ export default function Index({}: Props): ReactElement {
       </div>
     </div>
   );
-}
-
-export async function getServerSideProps(context: any) {
-  await setupTables();
-
-  return {
-    props: {
-      msg: "hit",
-    },
-  };
 }

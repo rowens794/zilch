@@ -1,4 +1,4 @@
-//Generating unique id
+//Generating unique id of a given length (useful for creating games and userIDs)
 export function makeID(length: number): string {
   const alphabet = [
     "1",
