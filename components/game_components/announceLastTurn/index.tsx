@@ -22,8 +22,8 @@ export default function Index({ gameData, userID }: Props): ReactElement {
     <>
       {showLastTurn ? (
         <div className="absolute z-30 w-full top-60">
-          <div className="py-8 m-auto text-center transform bg-red-100 rounded-sm w-80 drop-shadow-harshDkRed -rotate-6">
-            <p className="text-4xl font-black text-center text-yellow-500 text-shadow">
+          <div className="py-8 m-auto text-center transform rounded-sm bg-green-50 w-80 drop-shadow-harshDkRed -rotate-6">
+            <p className="text-4xl font-black text-center text-green-500 text-shadow-md-green">
               {hero.name} hit 10K
             </p>
           </div>

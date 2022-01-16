@@ -19,7 +19,7 @@ export default function Index({ gameData, userID }: Props): ReactElement {
     <>
       {showBankedPoints ? (
         <div className="absolute z-30 w-full top-60">
-          <div className="py-8 m-auto text-center transform bg-red-100 rounded-sm w-80 drop-shadow-harshDkRed -rotate-6">
+          <div className="py-8 m-auto text-center transform rounded-sm bg-yellow-50 w-80 drop-shadow-harshDkRed -rotate-6">
             <p className="text-4xl font-black text-center text-yellow-500 text-shadow">
               {msg}
             </p>

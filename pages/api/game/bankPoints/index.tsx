@@ -13,6 +13,7 @@ export default async function handler(
   let gameID: string = req.body.gameID;
   let userID: string = req.body.userID;
 
+  let game = await getGame(gameID);
   let player = await getPlayer(userID);
 
   //set Animation
@@ -30,8 +31,11 @@ export default async function handler(
   nextUpAnimationStart.setSeconds(bankScoreAnimationStart.getSeconds() + 2);
   nextUpAnimationEnd.setSeconds(bankScoreAnimationStart.getSeconds() + 4);
 
-  //check if the user has surpassed final score and if so set trigger and announce to players
-  if (player.turn_score + player.banked_score >= 10000) {
+  //check if the user has surpassed final score (and that another player hasn't already done so) and if so set trigger and announce to players
+  if (
+    player.turn_score + player.banked_score >= 10000 &&
+    !game.last_turn_triggered
+  ) {
     last_turn_animation_start = new Date();
     last_turn_animation_end = new Date();
     last_turn_animation_start.setSeconds(
@@ -70,6 +74,17 @@ const getPlayer = (gameID: string): Promise<Player> => {
     let gameStartedQuery = await runQuery(gameQueryText, [gameID]);
 
     resolve(gameStartedQuery.rows[0]);
+  });
+
+  return promise;
+};
+
+const getGame = (gameID: string): Promise<Game> => {
+  let promise = new Promise<Game>(async (resolve, reject) => {
+    const gameQueryText = `SELECT * FROM game WHERE code = $1`;
+    let game = await runQuery(gameQueryText, [gameID]);
+
+    resolve(game.rows[0]);
   });
 
   return promise;

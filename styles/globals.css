@@ -24,5 +24,8 @@
     .text-shadow-md-yellow {
       text-shadow: 4px 4px 1px #ca8a04;
     }
+    .text-shadow-md-green {
+      text-shadow: 4px 4px 1px #166534;
+    }
   }
 }

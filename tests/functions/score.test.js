@@ -60,6 +60,16 @@ test("test scoring function : select three pairs", () => {
   expect(score).toEqual(1500);
 });
 
+test("test scoring function : select three pairs-2", () => {
+  let { score, validSelection, clearedBoard, zilched } = countScore(
+    [6, 2, 3, 6, 2, 3],
+    [true, true, true, true, true, true],
+    [0, 0, 0, 0, 0, 0]
+  );
+
+  expect(score).toEqual(1500);
+});
+
 test("test scoring function : select straight", () => {
   let { score, validSelection, clearedBoard, zilched } = countScore(
     [3, 2, 1, 5, 4, 6],

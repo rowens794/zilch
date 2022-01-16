@@ -8,20 +8,36 @@ interface Props {
 
 export default function Index({ gameData, userID }: Props): ReactElement {
   let [showNextUp, setShowNextUp] = useState(false);
+  let [showCalculatingWinner, setShowCalculatingWinner] = useState(false);
   let [nextUpName, setNextUpName] = useState("");
 
   useEffect(() => {
     getName(gameData, userID, setNextUpName);
-    showMessage(gameData, setShowNextUp);
-  }, [gameData, userID, gameData.game.zilched]);
+    showMessage(gameData, setShowNextUp, setShowCalculatingWinner);
+  }, [
+    gameData,
+    userID,
+    gameData.game.zilched,
+    gameData.game.last_turn_triggered_by,
+    gameData.game.start_of_turn,
+  ]);
 
   return (
     <>
       {showNextUp ? (
         <div className="absolute z-30 w-full top-60">
-          <div className="py-8 m-auto text-center transform bg-red-100 rounded-sm w-80 drop-shadow-harshDkRed -rotate-6">
+          <div className="py-8 m-auto text-center transform rounded-sm bg-yellow-50 w-80 drop-shadow-harshDkRed -rotate-6">
             <p className="text-4xl font-black text-center text-yellow-500 text-shadow">
               {nextUpName}
+            </p>
+          </div>
+        </div>
+      ) : null}
+      {showCalculatingWinner ? (
+        <div className="absolute z-30 w-full top-60">
+          <div className="py-8 m-auto text-center transform bg-green-100 rounded-sm w-80 drop-shadow-harshDkRed -rotate-6">
+            <p className="text-4xl font-black text-center text-green-500 text-shadow-md-green">
+              Calculating Winner
             </p>
           </div>
         </div>
@@ -30,11 +46,21 @@ export default function Index({ gameData, userID }: Props): ReactElement {
   );
 }
 
-const showMessage = (gameData: GameData, setDisplayAnimation: Function) => {
-  if (gameData.game.next_up) {
-    setDisplayAnimation(true);
+const showMessage = (
+  gameData: GameData,
+  setDisplayAnimation: Function,
+  setShowCalculatingWinner: Function
+) => {
+  if (gameData.game.last_turn_triggered_by !== gameData.activePlayer.userID) {
+    if (gameData.game.next_up) {
+      setDisplayAnimation(true);
+    } else {
+      setDisplayAnimation(false);
+    }
   } else {
-    setDisplayAnimation(false);
+    if (gameData.game.start_of_turn) {
+      setShowCalculatingWinner(true);
+    }
   }
 };
 
